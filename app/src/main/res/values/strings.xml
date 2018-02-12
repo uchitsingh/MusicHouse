@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MusicHouse</string>
+    <string name="title_rock">Rock</string>
+    <string name="title_classic">Classic</string>
+    <string name="title_pop">Pop</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
+    <string name="hello_rock_fragment">Hello Rock fragment</string>
+    <string name="hello_classic_fragment">Hello Classic fragment</string>
+    <string name="hello_pop_fragment">Hello Pop fragment</string>
+
+
+
+</resources>
