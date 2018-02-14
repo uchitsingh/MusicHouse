@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.musichouse.ItemClickListener;
-import com.codepath.musichouse.MainActivity;
 import com.codepath.musichouse.R;
 import com.codepath.musichouse.controller.RealmBackupRestore;
 import com.codepath.musichouse.controller.RealmHelper;
-import com.codepath.musichouse.model.GenreModel;
-import com.codepath.musichouse.model.Result;
-import com.codepath.musichouse.rockmusic.RockFragment;
+import com.codepath.musichouse.data.network.model.GenreModel;
+import com.codepath.musichouse.data.network.model.Result;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -35,7 +31,7 @@ import io.realm.Realm;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder> {
     Context applicationContext;
-    Consumer<GenreModel> consumer ;
+ //  GenreModel genreModel ;
     List<Result> results;
     private int row_music_details;
     private Realm realm;
@@ -44,9 +40,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
     private Activity activity;
 
 
-    public MusicAdapter( Activity activity,   Consumer<GenreModel> consumer, List<Result> results, int row_music_details) {
+    public MusicAdapter( Activity activity,   List<Result> results, int row_music_details) {
         this.applicationContext = activity.getApplicationContext();
-        this.consumer = consumer;
         this.row_music_details = row_music_details;
         this.results = results;
         this.activity = activity;

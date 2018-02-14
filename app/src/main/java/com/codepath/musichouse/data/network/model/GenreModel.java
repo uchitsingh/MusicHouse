@@ -1,4 +1,4 @@
-package com.codepath.musichouse.model;
+package com.codepath.musichouse.data.network.model;
 
 /**
  * Created by uchit on 11/02/2018.
@@ -15,8 +15,6 @@ public class GenreModel  {
     public GenreModel(){
 
     }
-
-
 
     @SerializedName("resultCount")
     @Expose

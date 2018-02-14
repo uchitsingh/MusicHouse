@@ -14,10 +14,10 @@ import android.widget.Toast;
 
 import com.codepath.musichouse.R;
 import com.codepath.musichouse.adapter.MusicAdapter;
-import com.codepath.musichouse.model.GenreModel;
+import com.codepath.musichouse.data.network.model.GenreModel;
 
-import com.codepath.musichouse.service.IRequestInterface;
-import com.codepath.musichouse.service.ServiceConnection;
+import com.codepath.musichouse.data.network.service.IRequestInterface;
+import com.codepath.musichouse.data.network.service.ServiceConnection;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -110,7 +110,7 @@ public class PopFragment extends Fragment {
                         @Override
                         public void accept(GenreModel genreModel) throws Exception {
                            //
-                            recyclerView.setAdapter(new MusicAdapter(getActivity(),this, genreModel.getResults(),R.layout.row_music_details));
+                            recyclerView.setAdapter(new MusicAdapter(getActivity(), genreModel.getResults(),R.layout.row_music_details));
                             refreshLayout.setRefreshing(false);
 
                       //      recyclerView.setAdapter(new RockFragment(getContext(), this, genreModel.getResults(),R.layout.row_music_details));

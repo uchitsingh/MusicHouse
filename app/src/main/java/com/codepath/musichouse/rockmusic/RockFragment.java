@@ -18,10 +18,13 @@ import com.codepath.musichouse.adapter.MusicAdapter;
 import com.codepath.musichouse.adapter.RockAdapter;
 import com.codepath.musichouse.controller.RealmBackupRestore;
 import com.codepath.musichouse.controller.RealmHelper;
-import com.codepath.musichouse.model.GenreModel;
-import com.codepath.musichouse.model.Result;
-import com.codepath.musichouse.service.IRequestInterface;
-import com.codepath.musichouse.service.ServiceConnection;
+import com.codepath.musichouse.data.network.AppDataManager;
+import com.codepath.musichouse.data.network.model.GenreModel;
+import com.codepath.musichouse.data.network.model.Result;
+import com.codepath.musichouse.data.network.service.IRequestInterface;
+import com.codepath.musichouse.data.network.service.ServiceConnection;
+import com.codepath.musichouse.ui.base.BaseFragment;
+import com.codepath.musichouse.ui.utils.rx.AppSchedulerProvider;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 
 import java.util.ArrayList;
@@ -36,16 +39,20 @@ import io.realm.Realm;
  * A simple {@link Fragment} subclass.
  * It displays list of music by Rock Genre.
  */
-public class RockFragment extends Fragment {
+public class RockFragment extends BaseFragment implements IRockMusicMvpView{
 
-    private IRequestInterface requestInterface;
+  //  private IRequestInterface requestInterface;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
     private Realm realm;
     private RealmHelper realmHelper;
     private RealmBackupRestore realmBackupRestore;
     private ArrayList<Result> genreModelArrayList;
-    private CompositeDisposable compositeDisposable;
+  //  private CompositeDisposable compositeDisposable;
+
+    private RockMusicPresenterIml<RockFragment> rockFragmentRockMusicPresenterIml;
+
+
 
     /*
      Required empty public constructor
@@ -58,19 +65,23 @@ public class RockFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       requestInterface = ServiceConnection.getConnection();
-        compositeDisposable = new CompositeDisposable();
+     //  requestInterface = ServiceConnection.getConnection();
+   //     compositeDisposable = new CompositeDisposable();
         // Inflate the layout for this fragment
+
+        rockFragmentRockMusicPresenterIml = new RockMusicPresenterIml<>(new AppDataManager(), new AppSchedulerProvider(), new CompositeDisposable());
+        rockFragmentRockMusicPresenterIml.onAttach(this);
+
         return inflater.inflate(R.layout.fragment_rock, container, false);
     }
 
-    @Override
+/*    @Override
     public void onDestroy() {
         super.onDestroy();
         if(compositeDisposable !=null & !compositeDisposable.isDisposed()){
             compositeDisposable.clear();
         }
-    }
+    }*/
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -108,15 +119,15 @@ public class RockFragment extends Fragment {
                 public void accept(Boolean internetConnection) throws Exception {
                     if(internetConnection){
                         Toast.makeText(getContext(), "Conection", Toast.LENGTH_SHORT).show();
-                        displayRockMusic();
-
+                  //      displayRockMusic();
+                        rockFragmentRockMusicPresenterIml.loadMusicList();
 
                     }else{
 
                         //intefaceData.saveData(String artistName, String collectionName, String artWorkUrl, Double price);
 
-                        genreModelArrayList = realmHelper.getGenres();
-                        displayRockMusic();
+//                        genreModelArrayList = realmHelper.getGenres();
+  //                      displayRockMusic();
 
                         Toast.makeText(getContext(), "No conection", Toast.LENGTH_SHORT).show();
 
@@ -146,7 +157,7 @@ public class RockFragment extends Fragment {
     /*
        Implements IrequestInterface getRockMusic method which returns Observable<model> objects which gets items pinged from the web
      */
-    private void displayRockMusic() {
+   /* private void displayRockMusic() {
         //genreModelArrayList = new ArrayList<Result>();
         compositeDisposable.add(requestInterface.getRockMusic()
                 .subscribeOn(Schedulers.newThread()) //which thread the observable will begin operating on
@@ -163,6 +174,7 @@ public class RockFragment extends Fragment {
                         //      Toast.makeText(getActivity(),genreModel.getResults().get(0).getArtistName(), Toast.LENGTH_SHORT).show();
                     //    Log.i("Artist", genreModel.getResults().get(0).getArtistName());
                     }
+
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
@@ -171,7 +183,7 @@ public class RockFragment extends Fragment {
                     }
                 }));
 
-    }
+    }*/
     /*
        Helper method to saveDataToRealm
      */
@@ -182,4 +194,24 @@ public class RockFragment extends Fragment {
         realmBackupRestore.backup();
     }
 
+    @Override
+    public void onFetchDataProgress() {
+
+    }
+
+    @Override
+    public void onFetchDataSucess(GenreModel genreModel) {
+        recyclerView.setAdapter(new MusicAdapter(getActivity(), genreModel.getResults(), R.layout.row_music_details));
+        refreshLayout.setRefreshing(false);
+        hideLoading();
+    }
+
+    @Override
+    public void onFetchDataError(String error) {
+        Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+        refreshLayout.setRefreshing(false);
+        showMessage(error);
+        hideLoading();
+
+    }
 }

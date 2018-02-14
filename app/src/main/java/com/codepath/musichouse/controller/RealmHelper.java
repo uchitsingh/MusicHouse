@@ -1,7 +1,6 @@
 package com.codepath.musichouse.controller;
 
-import com.codepath.musichouse.model.GenreModel;
-import com.codepath.musichouse.model.Result;
+import com.codepath.musichouse.data.network.model.Result;
 
 import java.util.ArrayList;
 

@@ -17,8 +17,8 @@ import com.codepath.musichouse.MainActivity;
 import com.codepath.musichouse.R;
 import com.codepath.musichouse.controller.RealmBackupRestore;
 import com.codepath.musichouse.controller.RealmHelper;
-import com.codepath.musichouse.model.GenreModel;
-import com.codepath.musichouse.model.Result;
+import com.codepath.musichouse.data.network.model.GenreModel;
+import com.codepath.musichouse.data.network.model.Result;
 import com.codepath.musichouse.rockmusic.RockFragment;
 import com.squareup.picasso.Picasso;
 
@@ -35,18 +35,18 @@ import io.realm.Realm;
 
 public class RockAdapter extends RecyclerView.Adapter<RockAdapter.MusicHolder> {
     Context applicationContext;
-    Consumer<GenreModel> consumer ;
+  //  GenreModel genre ;
     List<Result> results;
     private int row_music_details;
     private Realm realm;
     private RealmHelper realmHelper;
     private RealmBackupRestore realmBackupRestore;
-    private Activity activity;
+    private Activity activity;  //activity is used for RealmBackupRestore
 
 
-    public RockAdapter( Activity activity,   Consumer<GenreModel> consumer, List<Result> results, int row_music_details) {
+    public RockAdapter( Activity activity,  List<Result> results, int row_music_details) {
         this.applicationContext = activity.getApplicationContext();
-        this.consumer = consumer;
+      //  this.genre = genre;
         this.row_music_details = row_music_details;
         this.results = results;
         this.activity = activity;
@@ -100,7 +100,7 @@ public class RockAdapter extends RecyclerView.Adapter<RockAdapter.MusicHolder> {
         if(rockFragment instanceof RockFragment && !rockFragment.getRetainInstance() ){
             rockFragment.saveDataToRealm(holder.mArtistName.getText().toString(), holder.mCollectionName.getText().toString(), holder.mCollectionName.getText().toString()
                     , Double.parseDouble(holder.mTrackPrice.getText().toString().replaceAll(" USD","")));
-            Log.i("fragment happend","sss");
+            Log.i("fragment happend","fragment happend");
         }
 
 

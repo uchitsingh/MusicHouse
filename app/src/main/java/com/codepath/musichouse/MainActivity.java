@@ -6,10 +6,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.codepath.musichouse.classicmusic.ClassicFragment;
-import com.codepath.musichouse.model.Result;
 import com.codepath.musichouse.popmusic.PopFragment;
 import com.codepath.musichouse.rockmusic.RockFragment;
 

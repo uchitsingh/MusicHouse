@@ -1,4 +1,4 @@
-package com.codepath.musichouse.service;
+package com.codepath.musichouse.data.network.service;
 
 /**
  * Created by uchit on 11/02/2018.
